@@ -1,0 +1,133 @@
+html {
+  margin-top: 0;
+  padding-top: 0;
+  -webkit-transition: all 1s ease;
+  -moz-transition: all 1s ease;
+  -ms-transition: all 1s ease;
+  -o-transition: all 1s ease;
+  transition: all 1s ease;
+}
+
+body {
+  letter-spacing: 0.1rem;
+  font-family: Merriweather, Arial, sans-serif;
+  padding: 0;
+  margin: 0;
+}
+
+nav-bar {
+  display: flex;
+  background-color: #ffffff;
+
+  justify-content: center;
+}
+
+.lista {
+  display: flex;
+  justify-content: center;
+  flex: 1; /* ocupa espacio disponible para centrarse */
+  gap: 30px;
+  list-style: none;
+}
+
+nav-bar ul li a {
+  text-transform: uppercase;
+  text-decoration: none;
+  line-height: 2.3rem;
+  color: rgb(3, 2, 2);
+  font-size: large;
+}
+
+nav-bar ul li a:hover {
+  /* cuando pasa el mouse cambia de color*/
+  color: #ffffff;
+}
+
+.item {
+  padding: 20px;
+  text-align: right;
+}
+
+.logo {
+  margin-left: auto;
+  height: 80px;
+
+  padding-top: 3px;
+}
+
+
+.inicio{
+    text-align: center;
+}
+
+
+.inicio h1{
+
+  font-size: 60px;      /* agranda la letra (por defecto suele ser ~32px) */
+  font-weight: bold;    /* negrita */
+  margin-top: 40px;     /* espacio arriba */
+      /* color del texto */
+      font: Arial;
+}
+
+
+.btn{
+
+margin-top: 30px;     /* espacio arriba */
+ background-color: transparent;
+border-radius: 10px;         /* esquinas redondeadas */
+  font-size: 16px;
+  cursor: pointer;            /* cambia el cursor al pasar por arriba */
+  transition: 0.3s;
+  padding:20px;
+    border-color: black;
+    font:Arial;
+
+
+
+}
+/* efecto cuando pasás el mouse */
+.btn:hover {
+  background-color: rgb(255, 255, 255); 
+  transform: scale(1.05); /* agranda un poquito */
+
+}
+
+.tarjeta{
+    margin-top:50px ;
+    text-align: center;
+
+}
+
+.tarjeta .btn{
+background-color: transparent;
+cursor: pointer;
+transition: 0.3s;
+padding: 10px;
+ 
+
+
+}
+.tarjeta button:hover{
+  background-color: rgb(255, 255, 255); 
+  transform: scale(1.05); /* agranda un poquito */
+
+
+}
+
+blockquote{
+
+    margin-top: 30px;
+
+
+}
+
+blockquote h2:hover{
+    color: rgb(160, 71, 71);
+
+
+}
+
+
+
+
