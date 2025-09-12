@@ -9,15 +9,21 @@ html {
 }
 
 body {
+  
   letter-spacing: 0.1rem;
   font-family: Merriweather, Arial, sans-serif;
   padding: 0;
   margin: 0;
+  
 }
+.imagenAguaBack{
+background-image: url("https://grupobeta.es/wp-content/uploads/2023/02/burbujas-de-agua-comestibles-scaled.jpg");
+  background-size: contain ;
 
+}
 nav-bar {
   display: flex;
-  background-color: #ffffff;
+  background-color: #faf5f5;
 
   justify-content: center;
 }
@@ -127,6 +133,7 @@ blockquote h2:hover{
 
 
 }
+
 
 
 
