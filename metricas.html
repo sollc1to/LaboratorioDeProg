@@ -23,9 +23,9 @@
         <!-- barra inicial -->
         <ul class="lista">
             <!-- lista desordenada-->
-            <li class="item"><a href="">Home</a></li>
+            <li class="item"><a href="index.html">Home</a></li>
             <li class="item"><a href="">About us</a></li>
-            <li class="item"><a href="">System Status</a></li>
+            <li class="item"><a href="metricas.html">System Status</a></li>
             <li class="item"><a href="">Social</a></li>
             <!-- cada uno de estos es un ítem de la lista-->
         </ul>
@@ -35,7 +35,7 @@
         <li>
             <label for="Usage_CPU%"> CPU </label>
               <div class="content_metricas">
-                <p> Descipcion del btn </p>
+                <p></p>
                 <canvas id="CpuChart" width="400" height="300"></canvas>
             </div>
         </li>
@@ -67,7 +67,12 @@
     </ul>
    
 </body>
+
 <script>
+
+    function randomValue() {
+    return Math.floor(Math.random() * 100);
+}
 let miCanva = document.getElementById("CpuChart").getContext("2d"); 
 var chart = new Chart(miCanva,{
     type:"bar",
@@ -76,10 +81,22 @@ var chart = new Chart(miCanva,{
         datasets:[{
             label:"Uso de los Nucleos del Cpu",
             backgroundColor:"black",
-            data:[12,40,50,70]   
+            data:[0,0,0,0]   
         }]
+    }, options:{
+        scales:{
+            y:{
+                beginAtZero:true
+                ,max: 100
+            }
+        }
     }
+    
 })
+setInterval(() => {
+    chart.data.datasets[0].data = [randomValue(), randomValue(), randomValue(), randomValue()];
+    chart.update();
+}, 2000);
 
 </script>
 

@@ -17,9 +17,11 @@ body {
 
 nav-bar {
   display: flex;
-  background-color: #ffffff;
-
-  justify-content: center;
+  width: 1280px;
+  margin: 0 auto;
+  background: transparent;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .lista {
@@ -40,7 +42,7 @@ nav-bar ul li a {
 
 nav-bar ul li a:hover {
   /* cuando pasa el mouse cambia de color*/
-  color: #ffffff;
+  color: #6e6e6e;
 }
 
 .item {
@@ -51,7 +53,6 @@ nav-bar ul li a:hover {
 .logo {
   margin-left: auto;
   height: 80px;
-
   padding-top: 3px;
 }
 
@@ -70,7 +71,6 @@ nav-bar ul li a:hover {
       font: Arial;
 }
 
-
 .btn{
 
 margin-top: 30px;     /* espacio arriba */
@@ -82,9 +82,6 @@ border-radius: 10px;         /* esquinas redondeadas */
   padding:20px;
     border-color: black;
     font:Arial;
-
-
-
 }
 /* efecto cuando pasás el mouse */
 .btn:hover {
@@ -133,12 +130,14 @@ blockquote h2:hover{
 .accordion { /*Clase del boton de metricas o lista de metricas*/
   margin: 60px auto;
   width: 600px;
+  display: center;
 }
 
 .accordion li { /*Lista acordion*/
   list-style: none; /*es el puntito de cada elemento de la lista */
+  justify-content: center;
   width: 100%;
-  margin:20px;
+  margin:10px;
   padding: 10 px;
   border-radius: 8px;
   background-color: #e3edf3;
@@ -178,7 +177,7 @@ blockquote h2:hover{
 
  .accordion li.active .content_metricas {
             max-height: 400px;
-            padding: 15px;
+            padding: 45px;
         }
 
 
