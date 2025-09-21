@@ -28,69 +28,31 @@
       </ul>
     </nav-bar>
 
-    <div class="inicio">
-      <h1 id="home">Monitorea tu servidor</h1>
 
-      <button class="btn1" onclick="location.href='conectar.html'"><h3>Conectar</h3></button>
+  <div class = "about-us formulario"> <!-- le aisgnamos dos clases-->
+        
+  <form action="?" method="post"> <!--enviar información (guardar, modificar, enviar datos sensibles-->
+  <label for="usuario">Usuario:</label>
+  <input type="text" id="usuario" name="usuario" required>
 
-    </div>
+  <label for="password">Contraseña:</label>
+  <input type="password" id="password" name="password" required>
 
-    <blockquote >
+    <label for="ip">Dirección IP:</label>
+  <input type="text" id="ip" name="ip" required>
 
-        <h2>
-      Advertencia!
-    </h2>
-    <p>
-      Para poder monitorear tu computadora mediante SSH es necesario que tengamos permiso de ejecución, en caso contrario no será posible.
-    </p>
+  <label for="host">Host:</label>
+  <input type="text" id="host" name="host" required>
+  <button type="submit" class = "conect btn ">Conectar</button> <!-- acá debería redirigir a una página que muestre las cosas-->
+</form>
 
 
-    </blockquote>
+  </div>
 
  
 
 
-<div class = "botones">
 
-    <button class ="btn">
-      <!-- preguntar si debería agregar un div-->
-
-      <h3>¿No tienes activamente un servidor SSH?</h3>
-      <p>No te preocupes! Clickea aquí y te mostraremos como activarlo.</p>
-
-
-
-    </button>
-
-    <button class = "btn2">
-
-        <h3>¿No tienes activamente un servidor SSH?</h3>
-      <p>No te preocupes! Clickea aquí y te mostraremos como activarlo.</p>
-
-
-
-
-
-    </button>
-
-
-
-  
-
-</div>
-
-
-
-
-
-
-<p>
-
-  
-
-
-
-</p>
 
 
 
@@ -106,16 +68,13 @@
       </p>
     </div>
 
-    <div class="footer-credits">
+    <div >
       <h3>Autores</h3>
       <p>Andrés Torres – Aranda Teo – Marisol Pereira</p>
       <p>© 2025 Todos los derechos reservados</p>
     </div>
   </div>
 </footer>
-
-
-
   
 
   

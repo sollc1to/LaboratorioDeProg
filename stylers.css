@@ -73,7 +73,7 @@ nav-bar ul li a:hover {
 
 .botones{
   display: flex;               /* activa flexbox */
-  justify-content: space-between; /* separa el primero a la izq. y el segundo a la der. */
+  justify-content: space-around; /* espacios uniformes */
  
 }
 
@@ -223,5 +223,48 @@ footer{
   text-align: center;       /* centra el texto si querés */
 }
 
+
+.formulario{
+display: flex;
+justify-content: center; /*espacio totalmente uniforme entre todos los ítems y bordes.*/
+align-items: center;
+max-width: 500px;
+
+
+
+}
+
+.formulario form {
+display: flex; /*los acomoda verticalmente*/
+  flex-direction: column;
+
+
+}
+
+.formulario form label{
+  padding: 20px;
+  font-weight: bold;
+
+
+}
+
+.conect{
+
+  margin: 40px;
+  color: black;
+  font-weight: bold;
+  border-color: #000000;
+  border: 1px solid;
+
+
+}
+
+
+.conect:hover {
+
+    background-color:rgb(124, 71, 88); 
+
+
+}
 
 
