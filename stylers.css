@@ -217,7 +217,7 @@ footer{
 
   margin: 0;                /* sin márgenes */
   padding: 40px ;       /* espacio interno */
-  width: 100%;              /* ocupa todo el ancho */
+  width: auto;              /* ocupa todo el ancho */
   border-radius: 0;         /* sin esquinas redondeadas */
   background-color: rgb(176, 179, 201); /* color de fondo */
   text-align: center;       /* centra el texto si querés */
