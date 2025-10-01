@@ -1,0 +1,9 @@
+
+
+div button:hover{
+     font-weight: 700;
+  background-color:rgb(180, 166, 179); 
+  transform: scale(1.05); /* agranda un poquito **/
+
+
+}
