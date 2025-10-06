@@ -1,33 +1,34 @@
 <!DOCTYPE html>
 
 <html>
-  <head>
+
+<head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title></title>
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="stylers.css" />
-    <link rel = "stylesheet" href="stylersestadistica.css" />
+    <link rel="stylesheet" href="stylersestadistica.css" />
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
 
-  </head>
+</head>
 
-  <body>
+<body>
     <nav-bar>
-      <img class="logo" src="linux.png" />
-      <script src="script.js"></script>
+        <img class="logo" src="linux.png" />
+        <script src="script.js"></script>
 
-      <!-- barra inicial -->
-      <ul class="lista">
-        <!-- lista desordenada-->
+        <!-- barra inicial -->
+        <ul class="lista">
+            <!-- lista desordenada-->
 
-        <li class="item"><a href="index.html">Home</a></li>
-        <li class="item"><a href="aboutus.html">Sobre nosotros</a></li>
-        <li class="item"><a href="">System Status</a></li>
-        <li class="item"><a href="">Social</a></li>
-        <!-- cada uno de estos es un ítem de la lista-->
-      </ul>
+            <li class="item"><a href="index.html">Home</a></li>
+            <li class="item"><a href="aboutus.html">Sobre nosotros</a></li>
+            <li class="item"><a href="">System Status</a></li>
+            <li class="item"><a href="">Social</a></li>
+            <!-- cada uno de estos es un ítem de la lista-->
+        </ul>
     </nav-bar>
 
 
@@ -39,214 +40,256 @@
 
 
 
-<!DOCTYPE html>
+    <!DOCTYPE html>
 
-<html>
+    <html>
 
-<head> <!--informacion de la pagina -->
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title></title>
-    <meta name="description" content="" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="stylers.css"/>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="script.js"></script>
+    <head> <!--informacion de la pagina -->
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <title></title>
+        <meta name="description" content="" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="stylesheet" href="stylers.css" />
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="script.js"></script>
 
-</head>
+    </head>
 
-<body> <!-- cuerpo del html-->
+    <body> <!-- cuerpo del html-->
 
 
 
-    <ul class="accordion"> <!--// etiqueta de tipo lista unorder  -->
-        <li>
-            <label for="Usage_CPU%"> CPU </label>
-              <div class="content_metricas">
-                <p></p>
-                <canvas id="CpuChart" width="400" height="300"></canvas>
-            </div>
-        </li>
+        <ul class="accordion"> <!--// etiqueta de tipo lista unorder  -->
+            <li>
+                <label for="Usage_CPU%"> CPU </label>
+                <div class="content_metricas">
+                    <p></p>
+                    <canvas id="CpuChart" width="400" height="300"></canvas>
+                </div>
+            </li>
 
-        <li>
-            <label for="Usage_RAM"> Ram </label>
-              <div class="content_metricas">
-                <p></p>
-                 <canvas id="RamChart" width="400" height="300"></canvas>
-            </div>
-        </li>
+            <li>
+                <label for="Usage_RAM"> Ram </label>
+                <div class="content_metricas">
+                    <p></p>
+                    <canvas id="RamChart" width="400" height="300"></canvas>
+                </div>
+            </li>
 
-        <li>
-            <label for="Usage_Disk"> Disco </label>
-            <div class="content_metricas">
-                <p>  </p>
-                 <canvas id="DiskChart" width="400" height="300"></canvas>
-            </div>
-        </li>
+            <li>
+                <label for="Usage_Disk"> Disco </label>
+                <div class="content_metricas">
+                    <p> </p>
+                    <canvas id="DiskChart" width="400" height="300"></canvas>
+                </div>
+            </li>
 
-        <li>
-            <label for="Cpu_temp"> CPU Temp </label>
-              <div class="content_metricas">
-                 <canvas id="TempChart" width="400" height="300"></canvas>
-                <p> </p>
-            </div>
-        </li>
+            <li>
+                <label for="Cpu_temp"> CPU Temp </label>
+                <div class="content_metricas">
+                    <canvas id="TempChart" width="400" height="300"></canvas>
+                    <p> </p>
+                </div>
+            </li>
 
-    </ul>
-   
-</body>
-<script>
+        </ul>
 
-    // Función que devuelve un número entero aleatorio entre 0 y 99. Por ahora es solo para ver como funcionará el sitio web. 
-    function randomValue() {
-        return Math.floor(Math.random() * 100);
-    }
+    </body>
+    <script>
+        // Función que devuelve un número entero aleatorio entre 0 y 99. Por ahora es solo para ver como funcionará el sitio web. 
+        function randomValue() {
+            return Math.floor(Math.random() * 100);
+        }
 
-    // Obtenemos el contexto 2D del elemento <canvas> con id="CpuChart"
-    // Chart.js utiliza este contexto para poder dibujar el gráfico
-    let miCanva = document.getElementById("CpuChart").getContext("2d"); 
+        // Obtenemos el contexto 2D del elemento <canvas> con id="CpuChart"
+        // Chart.js utiliza este contexto para poder dibujar el gráfico
+        let miCanva = document.getElementById("CpuChart").getContext("2d");
 
-    // Creamos una nueva instancia de Chart (librería Chart.js)
-    var chart = new Chart(miCanva,{
-        type: "bar", // tipo de gráfico: barras
-        data:{
-            // Etiquetas que se muestran en el eje X
-            labels: ["cpuCore1", "cpuCore2", "cpuCore3", "cpuCore4"],
+        // Creamos una nueva instancia de Chart (librería Chart.js)
+        var chart = new Chart(miCanva, {
+            type: "bar", // tipo de gráfico: barras
+            data: {
+                // Etiquetas que se muestran en el eje X
+                labels: ["cpuCore1", "cpuCore2", "cpuCore3", "cpuCore4"],
 
-            // Conjunto de datos que se va a graficar
-            datasets:[{
-                label: "Uso de los Núcleos del CPU", 
-                backgroundColor: "black",            // color de las barras
-                data: [0,1,3,5]                      // valores iniciales de cada núcleo
-            }]
-        }, 
-        options:{
-            scales:{
-                y:{
-                    beginAtZero: true,  // el eje Y comienza en 0
-                    max: 100            // el eje Y llega hasta 100 (representando porcentaje)
+                // Conjunto de datos que se va a graficar
+                datasets: [{
+                    label: "Uso de los Núcleos del CPU",
+                    backgroundColor: "black",            // color de las barras
+                    data: [0, 1, 3, 5]                      // valores iniciales de cada núcleo
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,  // el eje Y comienza en 0
+                        max: 100            // el eje Y llega hasta 100 (representando porcentaje)
+                    }
                 }
             }
-        }
-    });
-    
-    // Cada 2000 milisegundos (2 segundos) se ejecuta la función indicada
-    setInterval(() => {
-        // Se generan nuevos valores aleatorios para los 4 núcleos
-        chart.data.datasets[0].data = [
-            randomValue(), 
-            randomValue(), 
-            randomValue(), 
-            randomValue()
-        ];
-        // Se actualiza/redibuja el gráfico con los nuevos valores
-        chart.update();
-    }, 2000);
+        });
 
-    let ramCanvas = document.getElementById("RamChart").getContext("2d");
-let ramChart = new Chart(ramCanvas, {
-    type: "doughnut",
-    data: {
-        labels: ["En Uso", "Disponible", "Caché/Buffer"],
-        datasets: [{
-            label: "Uso de RAM",
-            borderWidth: 2,
-            data: [65, 25, 10] 
-        }]
-    },
-    options: {
-        responsive: true,
-        plugins: {
-            title: {
-                display: true,
-                text: 'Distribución de Memoria RAM',
-                font: { size: 16 }
+
+        let ramCanvas = document.getElementById("RamChart").getContext("2d");
+        let ramChart = new Chart(ramCanvas, {
+            type: "doughnut",
+            data: {
+                labels: ["En Uso", "Disponible", "Caché/Buffer"],
+                datasets: [{
+                    label: "Uso de RAM",
+                    borderWidth: 2,
+                    data: [65, 25, 10]
+                }]
             },
-        }
-    }
-});
-
-let diskCanvas = document.getElementById("DiskChart").getContext("2d");
-let diskChart = new Chart(diskCanvas, {
-    type: "pie",
-    data: {
-        labels: ["Sistema", "Archivos", "Aplicaciones", "Espacio Libre"],
-        datasets: [{
-            label: "Uso de Disco",
-            borderWidth: 2,
-            data: [15, 45, 25, 15]  // Valores promedio
-        }]
-    },
-    options: {
-        responsive: true,
-        plugins: {
-            title: {
-                display: true,
-                text: 'Uso del Disco Duro',
-                font: { size: 16 }
+            options: {
+                responsive: true,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Distribución de Memoria RAM',
+                        font: { size: 16 }
+                    },
+                }
             }
-        }
-    }
-});
+        });
 
-let tempCanvas = document.getElementById("TempChart").getContext("2d");
-let tempChart = new Chart(tempCanvas, {
-    type: "line",
-    data: {
-        labels: ["-5min", "-4min", "-3min", "-2min", "-1min", "Ahora"],
-        datasets: [{
-            label: "Temperatura CPU (°C)",
-            backgroundColor: 'rgba(255, 99, 132, 0.2)',
-            borderColor: 'rgb(255, 99, 132)',
-            borderWidth: 3,
-            pointBackgroundColor: 'rgb(255, 99, 132)',
-            pointBorderColor: '#fff',
-            pointBorderWidth: 2,
-            pointRadius: 5,
-            fill: true,
-          
-            data: [45, 48, 52, 55, 58, 60]  // Temperatura promedio subiendo
-        }]
-    },
-    options: {
-        responsive: true,
-        scales: {
-            y: {
-                beginAtZero: false,
-                min: 30, 
-                max: 90,  
-                title: {
-                    display: true,
-                    text: 'Temperatura (°C)'
+        let diskCanvas = document.getElementById("DiskChart").getContext("2d");
+        let diskChart = new Chart(diskCanvas, {
+            type: "pie",
+            data: {
+                labels: ["Sistema", "Archivos", "Aplicaciones", "Espacio Libre"],
+                datasets: [{
+                    label: "Uso de Disco",
+                    borderWidth: 2,
+                    data: [15, 45, 25, 15]  // Valores promedio
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Uso del Disco Duro',
+                        font: { size: 16 }
+                    }
+                }
+            }
+        });
+
+        let tempCanvas = document.getElementById("TempChart").getContext("2d");
+        var tempChart = new Chart(tempCanvas, {
+            type: "line",
+            data: {
+                labels: ["-5min", "-4min", "-3min", "-2min", "-1min", "Ahora"],
+                datasets: [{
+                    label: "Temperatura CPU (°C)",
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderColor: 'rgb(255, 99, 132)',
+                    borderWidth: 3,
+                    pointBackgroundColor: 'rgb(255, 99, 132)',
+                    pointBorderColor: '#fff',
+                    pointBorderWidth: 2,
+                    pointRadius: 5,
+                    fill: true,
+
+                    data: [45, 48, 52, 55, 58, 60]  // Temperatura promedio subiendo
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        min: 30,
+                        max: 90,
+                        title: {
+                            display: true,
+                            text: 'Temperatura (°C)'
+                        },
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.1)'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Tiempo'
+                        },
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.1)'
+                        }
+                    }
                 },
-                grid: {
-                    color: 'rgba(0, 0, 0, 0.1)'
-                }
-            },
-            x: {
-                title: {
-                    display: true,
-                    text: 'Tiempo'
-                },
-                grid: {
-                    color: 'rgba(0, 0, 0, 0.1)'
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Temperatura del CPU',
+                        font: { size: 16 }
+                    },
+
                 }
             }
-        },
-        plugins: {
-            title: {
-                display: true,
-                text: 'Temperatura del CPU',
-                font: { size: 16 }
-            },
-      
+        });
+        // Cada 2000 milisegundos (2 segundos) se ejecuta la función indicada
+        setInterval(() => {
+            // Se generan nuevos valores aleatorios para los 4 núcleos
+            chart.data.datasets[0].data = [
+                randomValue(),
+                randomValue(),
+                randomValue(),
+                randomValue()
+            ];
+            // Se actualiza/redibuja el gráfico con los nuevos valores
+            chart.update();
+
+
+        }, 2000);
+
+        setInterval(actualizarTemp, 2500);
+        setInterval(() => {
+            let diskChange = (Math.random() - 0.5) * 2;
+            diskChart.data.datasets[0].data = [
+                15 + diskChange,
+                45 - diskChange,
+                25,
+                15
+            ];
+            diskChart.update();
+        }, 2500);
+        setInterval(() => {
+            let ramUsed = 60 + Math.floor(Math.random() * 20);
+            let ramCache = 5 + Math.floor(Math.random() * 10);
+            let ramFree = 100 - ramUsed - ramCache;
+
+            ramChart.data.datasets[0].data = [ramUsed, ramFree, ramCache];
+            ramChart.update();
+        }, 1500);
+
+        function actualizarTemp() {
+            let currentData = tempChart.data.datasets[0].data;
+            var index = 0;
+            currentData.forEach(element => {
+                if (index != currentData.length - 1) {
+                    currentData[index] = currentData[index + 1];
+                    index = index + 1;
+                } else {
+                    //estoy en la ultima posicion 
+                    let anteultimo = currentData[currentData.length - 2];
+                    let newTemp = anteultimo + (Math.random() - 0.5) * 15; //suma un poco de temperatura o baja
+                    newTemp = Math.max(35, Math.min(75, newTemp));
+                    currentData[currentData.length - 1] = newTemp;
+                }
+
+            });
+            tempChart.update();
+
+
         }
-    }
-});
 
-</script>
+    </script>
 
-</html>
+    </html>
 
 
 
@@ -265,27 +308,28 @@ let tempChart = new Chart(tempCanvas, {
 
 
 
-<footer>
-  <div class>
-    <div class>
-      <h3>Sobre el proyecto</h3>
-      <p>
-        Herramienta para monitorear servidores Linux mediante SSH, desarrollada
-        como parte de la Licenciatura en Ciencias de la Computación (3º año).
-      </p>
-    </div>
+    <footer>
+        <div class>
+            <div class>
+                <h3>Sobre el proyecto</h3>
+                <p>
+                    Herramienta para monitorear servidores Linux mediante SSH, desarrollada
+                    como parte de la Licenciatura en Ciencias de la Computación (3º año).
+                </p>
+            </div>
 
-    <div >
-      <h3>Autores</h3>
-      <p>Andrés Torres – Aranda Teo – Marisol Pereira</p>
-      <p>© 2025 Todos los derechos reservados</p>
-    </div>
-  </div>
-</footer>
-  
+            <div>
+                <h3>Autores</h3>
+                <p>Andrés Torres – Aranda Teo – Marisol Pereira</p>
+                <p>© 2025 Todos los derechos reservados</p>
+            </div>
+        </div>
+    </footer>
 
-  
+
+
 
     <script src="script.js" async defer></script>
-  </body>
+</body>
+
 </html>
