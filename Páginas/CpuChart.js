@@ -7,13 +7,14 @@
             type: "bar", // tipo de gráfico: barras
             data: {
                 // Etiquetas que se muestran en el eje X
-                labels: ["cpuCore1", "cpuCore2", "cpuCore3", "cpuCore4"],
+                labels: ["cpuCore1 ", "cpuCore2", "cpuCore3", "cpuCore4"],
 
                 // Conjunto de datos que se va a graficar
                 datasets: [{
                     label: "Uso de los Núcleos del CPU",
-                    backgroundColor: "black",            // color de las barras
-                    data: [0, 1, 3, 5]                      // valores iniciales de cada núcleo
+                                // color de las barras
+                    data: [0, 1, 3, 5],
+                    backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0"]                      // valores iniciales de cada núcleo
                 }]
             },
             options: {
@@ -22,7 +23,8 @@
                         beginAtZero: true,  // el eje Y comienza en 0
                         max: 100            // el eje Y llega hasta 100 (representando porcentaje)
                     }
-                }
+                },
+               
             }
         });
 
