@@ -141,14 +141,14 @@
 
 /* PINGÜINO MÁS GRANDE */
 .logo-linux {
-    width: 90px; /* Más grande que antes */
+    width: 90px; /* Más grande  */
     height: 90px;
     margin-bottom: 15px;
     filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
 }
 
 .icono-linux {
-    font-size: 50px; /* Si usas emoji en lugar de imagen */
+    font-size: 50px; 
     margin-bottom: 10px;
     filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
 }
