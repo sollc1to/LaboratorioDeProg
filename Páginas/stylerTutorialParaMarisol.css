@@ -17,7 +17,7 @@
     color: #333 !important;
     font-size: 18px !important;
 }
-
+/* Para textos izquierda y derecha  */
 .contenedor-mitad {
     display: flex;
     align-items: flex-start;
@@ -38,23 +38,16 @@
     text-align: left;
 }
 
-/* CONTENEDOR PARA ALINEAR TERMINALES IZQUIERDA Y DERECHA */
-.contenedor-terminales {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 20px;
-    margin: 10px 0;
-}
 
+/* Para las terminales bash */
 .terminal-box {
     background-color: #1e1e1e;
     border-radius: 8px;
     overflow: hidden;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    width: 48%; /* Ambos terminales ocupan el mismo ancho */
     min-width: 300px;
     text-align: left;
+    margin: 10px auto; width: 50%;
 }
 
 .terminal-header {
@@ -105,33 +98,9 @@
     text-align: center;
     margin: 20px !important;
 }
-.contenedor-linux {
-    display: flex;
-    justify-content: center;
-    margin: 40px 0 20px 0;
-}
+
 /* Para Linux */
-.contenedor-linux {
-    display: flex;
-    justify-content: center;
-    margin: 30px 0 15px 0; /* Menos margen vertical */
-}
 
-.recuadro-linux {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    padding: 10px 35px; /* Menos alto (20px) y más ancho (35px) */
-    border-radius: 20px;
-    border: 3px solid #fff;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-    text-align: center;
-    max-width: 380px; /* Más ancho */
-    width: 90%; /* Ocupa más espacio lateral */
-    color: white;
-    position: relative;
-    overflow: hidden;
-}
-
-/* El pingüino se mantiene igual */
 .contenedor-linux {
     display: flex;
     justify-content: center;
