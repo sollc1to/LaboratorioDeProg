@@ -1,53 +1,44 @@
 <!DOCTYPE html>
 
 <html>
-  <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title></title>
-    <meta name="description" content="" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="/Stylers/stylers.css" />
-    <link rel = "stylesheet" href = "/Stylers/stylersconectar.css" />
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
 
-  </head>
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title></title>
+  <meta name="description" content="" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="/Stylers/stylers.css" />
+  <link rel="stylesheet" href="/Stylers/stylersconectar.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
 
-  <body>
-    <nav-bar>
-      <img class="logo" src="../Imágenes/linux.png" />
+</head>
 
-      <!-- barra inicial -->
-      <ul class="lista">
-        <!-- lista desordenada-->
+<body>
+  <nav-bar id="navegador">
 
-        <li class="item"><a href="index.html">Home</a></li>
-        <li class="item"><a href="aboutus.html">Sobre nosotros</a></li>
-     
-        <!-- cada uno de estos es un ítem de la lista-->
-      </ul>
-    </nav-bar>
+  </nav-bar>
 
 
-  <div class = "about-us formulario"> <!-- le aisgnamos dos clases-->
-        
-  <form action="estadisticas.html" method="get"> <!--enviar información (guardar, modificar, enviar datos sensibles-->
-  <label for="usuario">Usuario:</label>
-  <input type="text" id="usuario" name="usuario" required>
+  <div class="about-us formulario"> <!-- le aisgnamos dos clases-->
 
-  <label for="password">Contraseña:</label>
-  <input type="password" id="password" name="password" required>
+    <form action="estadisticas.html" method="get"> <!--enviar información (guardar, modificar, enviar datos sensibles-->
+      <label for="usuario">Usuario:</label>
+      <input type="text" id="usuario" name="usuario" required>
 
-  <label for="host">Host:</label>
-  <input type="text" id="host" name="host" required>
-  <button type="submit" class = "conect btn">Conectar</button> <!-- acá debería redirigir a una página que muestre las cosas-->
-</form>
+      <label for="password">Contraseña:</label>
+      <input type="password" id="password" name="password" required>
+
+      <label for="host">Host:</label>
+      <input type="text" id="host" name="host" required>
+      <button type="submit" class="conect btn">Conectar</button>
+      <!-- acá debería redirigir a una página que muestre las cosas-->
+    </form>
 
   </div>
 
 
 
- 
 
 
 
@@ -56,27 +47,29 @@
 
 
 
-<footer>
-  <div class>
+
+  <footer>
     <div class>
-      <h3>Sobre el proyecto</h3>
-      <p>
-        Herramienta para monitorear servidores Linux mediante SSH, desarrollada
-        como parte de la Licenciatura en Ciencias de la Computación (3º año).
-      </p>
+      <div class>
+        <h3>Sobre el proyecto</h3>
+        <p>
+          Herramienta para monitorear servidores Linux mediante SSH, desarrollada
+          como parte de la Licenciatura en Ciencias de la Computación (3º año).
+        </p>
+      </div>
+
+      <div>
+        <h3>Autores</h3>
+        <p>Andrés Torres – Aranda Teo – Marisol Pereira</p>
+        <p>© 2025 Todos los derechos reservados</p>
+      </div>
     </div>
+  </footer>
 
-    <div >
-      <h3>Autores</h3>
-      <p>Andrés Torres – Aranda Teo – Marisol Pereira</p>
-      <p>© 2025 Todos los derechos reservados</p>
-    </div>
-  </div>
-</footer>
-  
 
-  
 
-    <script src="script.js" async defer></script>
-  </body>
+
+  <script src="../Scripts/navBar.js"></script>
+</body>
+
 </html>

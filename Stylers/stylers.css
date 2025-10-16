@@ -21,14 +21,17 @@ nav-bar {
   background-color: rgb(148, 151, 170);
 
   justify-content: center;
+  align-items:left;
 }
 
 .lista {
   display: flex;
   justify-content: center;
+  align-items: center;
   flex: 1; /* ocupa espacio disponible para centrarse */
   gap: 30px;
   list-style: none;
+  margin: 0px;
 }
 
 nav-bar ul li a {
@@ -45,8 +48,7 @@ nav-bar ul li a:hover {
 }
 
 .item {
-  padding: 20px;
-  text-align: right;
+  text-align: left;
 }
 
 .logo {
