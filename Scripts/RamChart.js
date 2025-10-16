@@ -12,7 +12,11 @@
             },
             options: {
                 responsive: true,
-                plugins: {
+                plugins: {tooltip:{
+                    callbacks:{
+                        label: function(context){return 'Uso de la Ram:  '+ context.parsed+' % ';}
+                    }
+                },
                     title: {
                         display: true,
                         text: 'Distribución de Memoria RAM',

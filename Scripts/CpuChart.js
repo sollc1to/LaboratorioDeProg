@@ -17,7 +17,14 @@
                     backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0"]                      // valores iniciales de cada núcleo
                 }]
             },
-            options: {
+            options: {plugins : {
+                tooltip:{
+                    callbacks:{
+                        label: function(context){return 'Uso del CPU: '+ context.parsed.y+' % ';}
+                    }
+                }
+                , title:{display: true , text: 'Distribución de la CPU', font : {size  : 16}} 
+            },
                 scales: {
                     y: {
                         beginAtZero: true,  // el eje Y comienza en 0
