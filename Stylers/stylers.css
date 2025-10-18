@@ -154,6 +154,9 @@ blockquote h2:hover{
     text-align: center;
   }
 
+
+  
+
   .about-us h2 {
     font-size: 2.2rem;
     margin-bottom: 20px;
@@ -267,5 +270,12 @@ display: flex; /*los acomoda verticalmente*/
 
 
 }
+
+
+body img {
+  position: relative;
+}
+
+
 
 
