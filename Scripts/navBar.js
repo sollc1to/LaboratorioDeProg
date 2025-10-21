@@ -41,7 +41,7 @@ usuario.src = "../Imagenes/usuario.png";
 // Texto "Ingresar"
 const ingresar = document.createElement("a");
 ingresar.className = "ingresar";
-ingresar.href = "#";
+ingresar.href = "../Páginas/ingresar.html";
 ingresar.textContent = "Ingresar";
 
 // Agregar al contenedor de usuario
