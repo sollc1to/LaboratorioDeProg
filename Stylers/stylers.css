@@ -16,11 +16,20 @@ overflow: auto;
   
 }
 
+
+
 nav-bar {
   display: flex;
   background-color: rgb(148, 151, 170);
 
   justify-content: center;
+  position: sticky;
+  border-bottom: 1px solid rgba(255,255,255,.15);
+  background: linear-gradient(180deg, rgba(130,132,150,0.9), rgba(160,162,180,0.9));
+
+
+
+
 }
 
 .lista {
@@ -279,3 +288,84 @@ body img {
 
 
 
+/* Para pantallas chicas (celulares) */
+@media (max-width: 600px) {
+  main {
+    padding: 20px 15px;
+    margin: 20px auto;
+    font-size: 14px;
+  }
+
+  h2 {
+    font-size: 1.3em;
+    text-align: center;
+  }
+
+  img {
+    width: 80%; /* las imágenes se encogen */
+  }
+}
+
+
+
+
+.usuario{
+  margin-right: auto;
+  height: 130px;
+
+
+}
+
+
+/* Para pantallas grandes (PC) */
+@media (min-width: 601px) {
+  main {
+    padding: 50px;
+    font-size: 16px;
+  }
+}
+
+
+
+/* USUARIO DERECHA */
+.user-container {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.usuario {
+  height: 22px;
+  opacity: 0.8;
+  transition: opacity 0.3s;
+}
+.usuario:hover {
+  opacity: 1;
+}
+
+.ingresar {
+  text-decoration: none;
+  color: #2c2c2c;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.95rem;
+  letter-spacing: 0.8px;
+  background-color: #ffffff;
+  padding: 8px 18px;
+  border-radius: 20px;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+}
+
+.ingresar:hover {
+  background-color: rgb(126, 97, 123);
+  color: #ffffff;
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+
+.lista li a:hover{
+  color: #fff;
+  text-shadow: 0 0 6px rgba(255,255,255,0.6);
+}
