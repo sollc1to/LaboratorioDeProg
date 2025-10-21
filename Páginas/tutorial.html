@@ -7,10 +7,8 @@
     <title></title>
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="/Stylers/stylers.css" />
-    <link rel="stylesheet" href="/Stylers/stylerTutorialParaMarisol.css" />
-        <link rel="stylesheet" href="/Stylers/stylersabermas.css" />
-
+    <link rel="stylesheet" href="../Stylers/stylers.css" />
+    <link rel="stylesheet" href="../Stylers/stylerTutorialParaMarisol.css" />
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
 
 </head>
@@ -22,15 +20,20 @@
 
         <div class="mi-recuadro">
         <div class="centrado">
-            <h2> ¿Qué es SSH?</h2>
-            <p> SSH (Secure Shell) es un protocolo que te permite conectarte de forma segura a otro equipo a través de una
-                red.</p>
-              
-                
-        
-  
-            <h3> Instalar el servidor SSH: </h3>
-            <p> Para activar la conexión SSH, primero debemos instalar el servidor en nuestra computadora con los siguientes comandos: </p>
+            <p>¿Qué es SSH?
+                SSH (Secure Shell) es un protocolo que te permite conectarte de forma segura a otro equipo a través de una red.
+            </p>
+        </div>
+        <!-- Paso de Activacion -->
+        <div class="centrado">
+            <p>📋 Activación por Sistema Operativo</p>
+        </div>
+        <div class="centrado">
+            <p>🐧 En Linux (Ubuntu/Debian)</p>
+        </div>
+        <!-- Primer Paso -->
+        <div class="centrado">
+            <p>Instalar el servidor SSH:</p>
         </div>
 
 
@@ -96,64 +99,67 @@
         </div>
         <!-- Paso de seguridad 2 -->
         <!-- Paso 1 -->
-        <div class="centrado">
-            <p>🔒 Configuración básica de seguridad</p>
-        </div>
-        <div class="centrado">
-            <p>Cambiar el puerto predeterminado:</p>
+        <div>
+            <div class="centrado">
+                <p>🔒 Configuración básica de seguridad</p>
+            </div>
+            <div class="centrado">
+                <p>Cambiar el puerto predeterminado:</p>
+            </div>
+
+            <div class="terminal-box">
+                <div class="terminal-header">
+                    <span class="texto-bash">bash</span>
+                </div>
+                <div class="terminal-content">
+                    <div class="linea-comando">
+                        <span class="prompt">sudo nano</span>
+                        <span class="comando"> /etc/ssh/sshd_config</span>
+                    </div>
+                    <div class="linea-comando">
+                        <span class="comando" style="color: #888;"># Cambiar: Port 22 → Port 2222</span>
+                    </div>
+                </div>
+            </div>
         </div>
 
+        <!-- Paso 2 -->
+        <div class="centrado">
+            <p>Reiniciar el servicio:</p>
+        </div>
         <div class="terminal-box">
             <div class="terminal-header">
                 <span class="texto-bash">bash</span>
             </div>
             <div class="terminal-content">
                 <div class="linea-comando">
-                    <span class="prompt">sudo nano</span>
-                    <span class="comando"> /etc/ssh/sshd_config</span>
-                </div>
-                <div class="linea-comando">
-                    <span class="comando" style="color: #888;"># Cambiar: Port 22 → Port 2222</span>
+                    <span class="prompt">sudo</span>
+                    <span class="comando"> systemctl restart <span class="prompt">ssh</span></span>
                 </div>
             </div>
         </div>
-        <!-- Paso 2 -->
-        <div class="centrado">
-            <p>Reiniciar el servicio:</p>
-            </div>
-            <div class="terminal-box">
-                <div class="terminal-header">
-                    <span class="texto-bash">bash</span>
-                </div>
-                <div class="terminal-content">
-                    <div class="linea-comando">
-                        <span class="prompt">sudo</span>
-                        <span class="comando"> systemctl restart <span class="prompt">ssh</span></span>
-                    </div>
-                </div>
-            </div>
 
-        
+
         <!-- Paso 3 -->
         <div class="centrado">
             <p>🔑 Cómo conectarse</p>
+        </div>
+        <div class="terminal-box">
+            <div class="terminal-header">
+                <span class="texto-bash">bash</span>
             </div>
-            <div class="terminal-box">
-                <div class="terminal-header">
-                    <span class="texto-bash">bash</span>
+            <div class="terminal-content">
+                <div class="linea-comando">
+                    <span class="prompt">ssh</span>
+                    <span class="comando"> usuario@direccion-ip -p puerto</span>
                 </div>
-                <div class="terminal-content">
-                    <div class="linea-comando">
-                        <span class="prompt">ssh</span>
-                        <span class="comando"> usuario@direccion-ip -p puerto</span>
-                    </div>
-                    <div class="linea-comando">
-                        <span class="comando" style="color: #888;"># Ejemplo: ssh miusuario@192.168.1.100 -p 22</span>
-                    </div>
+                <div class="linea-comando">
+                    <span class="comando" style="color: #888;"># Ejemplo: ssh miusuario@192.168.1.100 -p 22</span>
                 </div>
             </div>
-            <!-- PAso 3 -->
-            <div class="centrado">
+        </div>
+        <!-- PAso 3 -->
+        <div class="centrado">
             <p>📋 Verificación final</p>
         </div>
 
@@ -172,16 +178,17 @@
                 </div>
             </div>
         </div>
-         <div class="contenedor-linux">
+        <div class="contenedor-linux">
             <div class="recuadro-linux">
-                <div class="icono-linux">🐧</div>
+                
+                <img src="../Imagenes/pinguinoVioleta.jpg" alt="Logo" class="imagen-linux">
                 <p>¡Configuración SSH completada! 🎉</p>
                 <small>Sistema listo para conexiones seguras</small>
             </div>
         </div>
 
-    
-        
+
+
         <div class="centrado">
             <p>🎯 Usos principales del SSH:</p>
         </div>
@@ -225,14 +232,12 @@
         </div>
 
 
-        
+
 
     </div>
+     <footer id ="footer">
 
-    </main>
-
-    
-    <footer id = "footer"> </footer>
+  </footer>
 
 <script src="../Scripts/navBar.js"></script>  
 
