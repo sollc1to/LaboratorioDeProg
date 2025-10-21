@@ -1,23 +1,4 @@
- .mi-recuadro {
-    background-color: rgb(198, 200, 211) !important;
-    padding: 40px !important;
-    margin: 20px !important;
-    border-radius: 25px !important;
-    border: 4px double #000 !important;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15) !important;
-    width: calc(100% - 40px) !important;
-    font-family: Arial, sans-serif !important;
-    line-height: 1.6 !important;
-    text-align: left !important;
-    box-sizing: border-box !important;
-}
 
-.mi-recuadro p {
-    margin: 0 !important;
-    color: #333 !important;
-    font-size: 18px !important;
-}
-/* Para textos izquierda y derecha  */
 .contenedor-mitad {
     display: flex;
     align-items: flex-start;
