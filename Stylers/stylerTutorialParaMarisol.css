@@ -82,25 +82,28 @@
 
 /* Para Linux */
 
+
 .contenedor-linux {
     display: flex;
     justify-content: center;
-    margin: 20px 0 15px 0; /* Menos margen vertical */
+    margin: 20px 0 15px 0;
 }
+
 
 .recuadro-linux {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    padding: 25px 40px; /* Un poco más de padding vertical para el pingüino */
+    padding: 25px 40px;
     border-radius: 20px;
     border: 3px solid #fff;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
     text-align: center;
-    max-width: 400px; /* Más ancho */
-    width: 85%; /* Ocupa más espacio lateral */
+    max-width: 400px;
+    width: 85%;
     color: white;
     position: relative;
     overflow: hidden;
 }
+
 
 .recuadro-linux::before {
     content: "";
@@ -115,24 +118,33 @@
     animation: animarBorde 4s linear infinite;
 }
 
+
 @keyframes animarBorde {
     0%, 100% { filter: hue-rotate(0deg); }
     50% { filter: hue-rotate(180deg); }
 }
 
-/* PINGÜINO MÁS GRANDE */
-.logo-linux {
-    width: 90px; /* Más grande  */
-    height: 90px;
-    margin-bottom: 15px;
+
+/* ESTILOS PARA LA NUEVA IMAGEN */
+.imagen-linux {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 10px;
     filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+    border-radius: 50%;  /* Circular */
+    object-fit: contain; /* Muestra la imagen completa */
+    background-color: white; /* Fondo blanco para que se vea mejor */
+    padding: 5px; /* Espacio interno */
 }
 
+
+/* O si prefieres mantener el emoji pero cambiar a otro */
 .icono-linux {
-    font-size: 50px; 
+    font-size: 60px; /* Tamaño del emoji */
     margin-bottom: 10px;
     filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
 }
+
 
 .recuadro-linux p {
     margin: 10px 0 !important;
@@ -141,6 +153,7 @@
     color: white !important;
     line-height: 1.3;
 }
+
 
 .recuadro-linux small {
     font-size: 14px;
