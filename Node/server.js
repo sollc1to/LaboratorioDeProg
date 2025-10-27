@@ -8,7 +8,7 @@ const port = 3000 ; // puerto donde la app escucha
 app.use(express.static(path.join(__dirname, 'public')));
 
 const index = require('./routes/indexRoute.js');
-
+//con use o get por ejemplo se piden ciertas cosas en este caso se pide la ruta / y la funcion que quiero que utilice en este caso index
 app.use("/",index);
 
 

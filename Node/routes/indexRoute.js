@@ -2,41 +2,24 @@ const express = require("express");
 const path = require('path');
 const router = express.Router();
 
+//Contenido estatico que puede mostrarse independientemente sin necesidad de autentificar o conectar 
 //raiz de la pagina
-router.get("/", function(req, resp){
-    resp.sendFile(path.join(__dirname, '../public/Páginas/index.html'));
-});
 
+router.get("/", function(req, resp){
+    resp.sendFile(path.join(__dirname, '../public/Páginas/index.html')); //el sendFile sirve para mandar una vista esto muestra el html con el css y js si es que se tiene acceso a public
+});
 //Sobre nosotros
 router.get("/About", function(req, resp){
      resp.sendFile(path.join(__dirname, '../public/Páginas/aboutus.html'));
-});
-
-//Como conectar un servidor
-router.get("/conectar", function(req, resp){
-     resp.sendFile(path.join(__dirname, '../public/Páginas/conectar.html'));
-});
-
-//ingresar usuario
-router.get("/ingresar", function(req, resp){
-     resp.sendFile(path.join(__dirname, '../public/Páginas/ingresar.html'));
 });
 
 //Tutorial para abrir el servidor
 router.get("/tutorial", function(req, resp){
      resp.sendFile(path.join(__dirname, '../public/Páginas/tutorial.html'));
 });
-
+//Mas ?*
 router.get("/saberMas", function(req, resp){
      resp.sendFile(path.join(__dirname, '../public/Páginas/sabermas.html'));
-});
-//las añado pero no deberian ir aca 
-router.get("/estadisticas", function(req, resp){
-     resp.sendFile(path.join(__dirname, '../public/Páginas/estadisticas.html'));
-});
-
-router.get("/registrarse", function(req, resp){
-     resp.sendFile(path.join(__dirname, '../public/Páginas/registrarse.html'));
 });
 
 module.exports = router;
