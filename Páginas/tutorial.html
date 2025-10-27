@@ -26,152 +26,11 @@
             <p> SSH (Secure Shell) es un protocolo que te permite conectarte de forma segura a otro equipo a través de una
                 red.</p>
               
-                
-        
-  
-            <h3> Instalar el servidor SSH: </h3>
             <p> Para activar la conexión SSH, primero debemos instalar el servidor en nuestra computadora con los siguientes comandos: </p>
         </div>
-
-
-
-        <div class="terminal-box">
-            <div class="terminal-header">
-                <span class="texto-bash">bash</span>
-            </div>
-            <div class="terminal-content">
-                <div class="linea-comando">
-                    <span class="prompt">sudo apt</span>
-                    <span class="comando"> update</span>
-                </div>
-                <div class="linea-comando">
-                    <span class="prompt">sudo apt install</span>
-                    <span class="comando"> openssh-server</span>
-                </div>
-            </div>
-        </div>
-
-
-
-
-
-        <div class="centrado">
-            <h3>Verificamos que esté funcionando: </h3>
-        </div>
-        <!-- Terminal derecha -->
-        <div class="terminal-box">
-            <div class="terminal-header">
-                <span class="texto-bash">bash</span>
-            </div>
-            <div class="terminal-content">
-                <div class="linea-comando">
-                    <span class="prompt">sudo</span>
-                    <span class="comando"> systemctl status <span class="prompt">ssh</span></span>
-
-                </div>
-
-            </div>
-        </div>
-
-        <!-- Tecer Paso -->
-        <div class="centrado">
-            <p>Si no esta activo, iniciarlo:</p>
-        </div>
-        <div class="terminal-box">
-            <div class="terminal-header">
-                <span class="texto-bash">bash</span>
-            </div>
-            <div class="terminal-content">
-                <div class="linea-comando">
-                    <span class="prompt">sudo</span>
-                    <span class="comando">systemctl start <span class="prompt"> ssh</span> </span>
-
-                </div>
-                <div class="linea-comando">
-                    <span class="prompt">sudo</span>
-                    <span class="comando"> systemctl <span class="prompt"> enable ssh</span> </span>
-
-                </div>
-            </div>
-        </div>
-        <!-- Paso de seguridad 2 -->
-        <!-- Paso 1 -->
-        <div class="centrado">
-            <p>🔒 Configuración básica de seguridad</p>
-        </div>
-        <div class="centrado">
-            <p>Cambiar el puerto predeterminado:</p>
-        </div>
-
-        <div class="terminal-box">
-            <div class="terminal-header">
-                <span class="texto-bash">bash</span>
-            </div>
-            <div class="terminal-content">
-                <div class="linea-comando">
-                    <span class="prompt">sudo nano</span>
-                    <span class="comando"> /etc/ssh/sshd_config</span>
-                </div>
-                <div class="linea-comando">
-                    <span class="comando" style="color: #888;"># Cambiar: Port 22 → Port 2222</span>
-                </div>
-            </div>
-        </div>
-        <!-- Paso 2 -->
-        <div class="centrado">
-            <p>Reiniciar el servicio:</p>
-            </div>
-            <div class="terminal-box">
-                <div class="terminal-header">
-                    <span class="texto-bash">bash</span>
-                </div>
-                <div class="terminal-content">
-                    <div class="linea-comando">
-                        <span class="prompt">sudo</span>
-                        <span class="comando"> systemctl restart <span class="prompt">ssh</span></span>
-                    </div>
-                </div>
-            </div>
-
+        <!-- Script de las mini terminales -->
+        <div id="contenido-principal"></div>
         
-        <!-- Paso 3 -->
-        <div class="centrado">
-            <p>🔑 Cómo conectarse</p>
-            </div>
-            <div class="terminal-box">
-                <div class="terminal-header">
-                    <span class="texto-bash">bash</span>
-                </div>
-                <div class="terminal-content">
-                    <div class="linea-comando">
-                        <span class="prompt">ssh</span>
-                        <span class="comando"> usuario@direccion-ip -p puerto</span>
-                    </div>
-                    <div class="linea-comando">
-                        <span class="comando" style="color: #888;"># Ejemplo: ssh miusuario@192.168.1.100 -p 22</span>
-                    </div>
-                </div>
-            </div>
-            <!-- PAso 3 -->
-            <div class="centrado">
-            <p>📋 Verificación final</p>
-        </div>
-
-        <div class="terminal-box" style="margin: 10px auto; width: 50%;">
-            <div class="terminal-header">
-                <span class="texto-bash">bash</span>
-            </div>
-            <div class="terminal-content">
-                <div class="linea-comando">
-                    <span class="prompt">sudo netstat</span>
-                    <span class="comando"> -tulpn | grep :22</span>
-
-                </div>
-                <div class="linea-comando">
-                    <span class="comando" style="color: #888;"># Para confirmar que todo funciona:</span>
-                </div>
-            </div>
-        </div>
          <div class="contenedor-linux">
             <div class="recuadro-linux">
                 
@@ -236,7 +95,7 @@
     <footer id = "footer"> </footer>
 
 <script src="../Scripts/navBar.js"></script>  
-
+<script src="../Scripts/miniTerminal.js"></script>
 <script src="../Scripts/footer.js"></script>  
 </body>
 
