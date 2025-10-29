@@ -15,7 +15,7 @@ router.get("/About", function(req, resp){
 
 //Tutorial para abrir el servidor
 router.get("/tutorial", function(req, resp){
-     resp.sendFile(path.join(__dirname, '../public/Páginas/tutorial.html'));
+     resp.sendFile(path.join(__dirname, '../public/Páginas/tutorialFINAL.html'));
 });
 //Mas ?*
 router.get("/saberMas", function(req, resp){
