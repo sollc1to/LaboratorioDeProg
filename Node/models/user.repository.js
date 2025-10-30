@@ -10,6 +10,8 @@ const User = Schema('User', { // crea un “modelo” de entidad llamada User, c
     
 });
 
+//ya tengo mi usuario el tema es que necesito una sesion activa como la haga ? JSON WEB TOKEN sirve para hacer transacciones de forma segura entre dos partes /mandar sesion
+//la idea con el token es que se le puede poner tiempo de expiracion y luego crear un token de refresh 
 //Se deben hacer verificaciones de todo tipo como longitud trim y demas para los datos de usuario 
 //Debo buscar algun metodo para encriptar las contraseñas y deamas 
 
