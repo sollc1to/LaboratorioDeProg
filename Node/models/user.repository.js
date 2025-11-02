@@ -1,6 +1,8 @@
 
 const DBlocal = require("db-local"); //Pequeña base local que simula una base real dejando utilizar metodos 
 const { Schema } = new DBlocal({ path: './mongoDB' }); // se estrae el Schema de los datos que van a guardarse en DbLocal 
+const crypto =require("node:crypto");
+const bcryp= require('bcrypt');
 
 const User = Schema('User', { // crea un “modelo” de entidad llamada User, con campos y tipos.
                               //este Schema se llama user y puede usar create find save y demas siempre respetando como esta formado {Nombre mail y contraseña }
@@ -18,19 +20,23 @@ const User = Schema('User', { // crea un “modelo” de entidad llamada User, c
 class UserRepository {
 
     static Validacion(datosUser){
+        //estaria bueno que se hiciera una validacion para login y create 
 
     }
 
     static async create({ userName, Usermail, password }) {
         try {
+            //puede hacerse con has o hashsync : la funcion hash devuelve una promesa 
+            const hasPassword = await bcryp.hash(password,10); // el numero 3 es la cantidad de vueltas que se hace para codificar mientras mayor es mas protegido pero tarda mas
             const user = await User.create({ //te prometo que creo el usuario pa
                 nombre: userName,
                 mail: Usermail,
-                contraseña: password
+                contraseña: hasPassword
             }).save();
             
             console.log("Usuario creado:", user);
             return user.nombre;
+
         } catch (error) {
             console.error("Error en UserRepository.create:", error);
             throw error;
@@ -41,16 +47,17 @@ class UserRepository {
         try {
             // Buscar usuario por nombre y contraseña
             const users = await User.find({   //te prometo que encuentro el usuario pa
-                nombre: userName, 
-                contraseña: password 
+                nombre: userName
             });
+
+              const isPasswordValid = await bcrypt.compare(password, user.contraseña);
             
             console.log("Usuarios encontrados:", users);
             
-            if (users && users.length > 0) {
+            if (users && users.length > 0 && isPasswordValid) {
                 return { 
                     success: true, 
-                    user: users[0],
+                    user: users,
                     message: "Login exitoso" 
                 };
             } else {

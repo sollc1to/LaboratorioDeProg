@@ -2,10 +2,17 @@ const express = require("express");
 const path = require('path');
 const router = express.Router();
 
+
+
+router.use(express.json());
+
+
 //Contenido estatico que puede mostrarse independientemente sin necesidad de autentificar o conectar 
 //raiz de la pagina
 
 router.get("/", function(req, resp){
+
+     //deberia leer la cookie y si tiene token iniciarle sesion podria cambiar algo en el html o el icono sacarle el iniciar sesion 
     resp.sendFile(path.join(__dirname, '../public/Páginas/index.html')); //el sendFile sirve para mandar una vista esto muestra el html con el css y js si es que se tiene acceso a public
 });
 //Sobre nosotros
