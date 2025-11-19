@@ -364,3 +364,14 @@ body img {
   color: #fff;
   text-shadow: 0 0 6px rgba(255,255,255,0.6);
 }
+
+
+.user-video {
+  width: 120px;      
+  height: auto;
+  border-radius: 12px;
+  object-fit: cover;
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+  position: relative;
+}
+

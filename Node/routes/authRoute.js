@@ -1,118 +1,121 @@
-require('dotenv').config();
+
 const express = require("express");
 const path = require('path');
 const router = express.Router();
-const UserRepository = require('../models/user.repository.js'); // Importación corregida
+const UserRepository = require('../models/user.repository.js');
+const jwt = require('jsonwebtoken');
+const { requireAuth, requireNoAuth } = require('../middleware/authMiddleware');
 
-const cookie = require('cookie-parser');
-const jsw = require('jsonwebtoken');
-const strict = require('assert/strict');
-const { token } = require('morgan');
+// NO AUTH
+router.get("/ingresar", requireNoAuth, (req, res) => {
+    res.sendFile(path.join(__dirname, '../public/Páginas/ingresar.html'));
+});
 
-// SUPER IMPORTANTE PARA PENSAR 
-//tal vez deberia meter todo aca nomas o hacer este el router supremo y que pueda usar los demas router asi me ahorro de andar importando dependencias en cada ruta.js 
+router.get("/registrarse", requireNoAuth, (req, res) => {
+    res.sendFile(path.join(__dirname, '../public/Páginas/registrarse.html'));
+});
 
-router.use(express.json());
-router.use(cookie());
+router.get("/conectar", requireNoAuth, (req, res) => {
+    res.sendFile(path.join(__dirname, '../public/Páginas/conectar.html'));
+});
 
-router.use(async (req, res, next) => { // esto estaria bueno meterlo en el repositoruo de rutas asi todos lo tiene y puedo acceder al token de una todo el tiempo 
+// REGISTRO - NO AUTH
+router.post("/registrarse", requireNoAuth, async (req, res) => {
+    const { usuario, email, password } = req.body; 
+    
     try {
-        const token = req.cookies.access_token;
-        
-        // Inicializar req.user como null
-        req.user = null;
-        
-        if (token) {  //si no pones nada si el obj no es null lo toma como true 
-
-            const data = await jsw.verify(token, process.env.SECRET_JWT_KEY);
-            req.user = data;  
+        // Validaciones básicas
+        if (!usuario || !email || !password) {
+            return res.status(400).json({
+                success: false,
+                message: "Todos los campos son requeridos"
+            });
         }
-        
-        next(); // Continuar
-        
-    } catch (error) {
-       
-        req.user = null;
-        next();
-    }
-});
 
-router.get("/ingresar", function(req, resp){
-    resp.sendFile(path.join(__dirname, '../public/Páginas/ingresar.html'));
-});
-
-router.get("/registrarse", function(req, resp){
-    resp.sendFile(path.join(__dirname, '../public/Páginas/registrarse.html'));
-});
-
-router.post("/registrarse", async (req, resp) => {
-    const { usuario, email, password, fecha } = req.body;
-    try {
         const nombreUsuario = await UserRepository.create({
             userName: usuario,
             Usermail: email,
             password: password
         });
         
-        resp.json({ // Muesta en formato jsaon lo que tengo en el registro o lo que registre
+        res.json({
             success: true, 
             message: `Usuario ${nombreUsuario} creado exitosamente` 
         });
     } catch (error) {
         console.error("Error al crear usuario:", error);
-        resp.status(500).json({ 
+        res.status(500).json({ 
             success: false, 
             message: "Error al crear el usuario" 
         });
     }
 });
 
-router.post("/loginusuario", async (req, resp) => {
-    const { usuario, password } = req.body;
+// LOGIN - NO AUTH
+router.post("/loginusuario", requireNoAuth, async (req, res) => {
+    
+    try {
+        const { usuario, password } = await req.body;
     
     console.log("Datos recibidos para login:", { usuario, password });
     
-    try {
         const result = await UserRepository.login({
             userName: usuario,
             password: password
         });
         
         if (result.success) {
-            const token = jsw.sign(user,process.env.SECRET_JWT_KEY,{expiresIn: '1h'});
+            
+            const user = result.user[0]; 
+            
+            // Datos que irán en el token JWT
+            const userData = {
+                id: user._id , 
+                userName: user.nombre,
+                email: user.mail
+            };
+            
+            const token = jwt.sign(userData, process.env.SECRET_JWT_KEY, { expiresIn: '1h' });
            
-            resp //la respuesta tiene una cookie y lo que envie 
-            .cookie('access_token',token,{
-                httpOnly: true, //la cookie solo se puede acceder desde el servidor no se puede leer del cliente o js
-                sameSite:'strict', //solo se puede acceder desde el mismo dominio
-                maxAge:1000*60*60 //tiempo de la cookie 1h
-
+            res
+            .cookie('access_token', token, {
+                httpOnly: true,
+                sameSite: 'strict',
+                maxAge: 1000 * 60 * 60 // 1 hora
             })
-            .send({ 
-                user: result.nombreUser,
-                //porque no envio el token aca? porque viaja en la cookie y siempre se puede acceder 
-                //deberia redirigir a home con la sesion iniciada o estar protegido 
-            });
+            .redirect('/'); // existe este comando magico antes trate de hacer esto 
+
+            /*.cookie('access_token', token, { httpOnly: true, sameSite: 'strict', maxAge: 1000 * 60 * 60 // 1 hora }) 
+            // .json({ success: true, user: user.nombre, message: 'Login exitoso' }) el .json termina la respuesta por lo que sednfile nunca se ejecutaba y solo mandaba el json
+            // .sendFile(path.join(__dirname,'../public/index.html')); */
   
         } else {
-            resp.status(401).json({ 
+            res.status(401).json({ 
                 success: false, 
                 message: result.message 
             });
         }
     } catch (error) {
         console.error("Error en login:", error);
-        resp.status(500).json({ 
+        res.status(500).json({ 
             success: false, 
             message: "Error en el servidor durante el login" 
         });
     }
 });
 
-router.get('/protected',async(req,resp)=>{
-    const {user} = req.user;
-    //siempre tengo user asi que con eso veo que hago puedo mandarlo o fijarme si esta logea2 y hacer algo como redirigir  
-    resp.send("pagina",user)
-})
+// RUTA PROTEGIDA - UN LOGIN COMO LA GENTE O UN INDEX DISTINTO ALGO
+router.get('/protected', requireAuth, (req, res) => {
+    res.json({
+        message: 'Acceso a ruta protegida exitoso',
+        user: req.user // Contiene { id, userName, email }
+    });
+});
 
-module.exports =router;
+// LOGOUT - IN PROGRESS JUASJUAS
+router.post("/logout", (req, res) => {
+    res.clearCookie('access_token')
+       .json({ success: true, message: 'Logout exitoso' });
+});
+
+module.exports = router;

@@ -1,23 +1,27 @@
-require('dotenv').config();
+require("dotenv").config();
 const express = require('express');
-const app = express(); //servidor 
+const cookieParser = require('cookie-parser');
 const path = require('path');
-const port = 3000 ; // puerto donde la app escucha 
+const { authMiddleware } = require('./middleware/authMiddleware'); // Importar middleware
 
+const app = express();
+const PORT = process.env.PORT || 3000;
 
+// ✅ Middlewares globales (orden importante)
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser()); //  Cookie parser GLOBAL TODOS TIENEN COOKIES :D
+app.use(authMiddleware); //  Middleware de auth GLOBAL - TODAS las rutas tendrán req.user
 
-const index = require('./routes/indexRoute.js');
+// Importar rutas
+const indexRoutes = require('./routes/indexRoute.js');
 const authRoutes = require('./routes/authRoute.js');
-//con use o get por ejemplo se piden ciertas cosas en este caso se pide la ruta / y la funcion que quiero que utilice en este caso index
-app.use("/",index);
-app.use("/",authRoutes);
 
-
-const PORT = process.env.PORT || 3000;
-
-app.listen(port, () => { //Recibe el puerto y hace un callBack 
-  console.log(`Example app listening on port ${port}`);
+// Usar rutas
+app.use("/", indexRoutes);
+app.use("/", authRoutes);
+console.log("JWT key:", process.env.SECRET_JWT_KEY);
+app.listen(PORT, () => {
+    console.log(`Servidor ejecutándose en http://localhost:${PORT}`);
 });
