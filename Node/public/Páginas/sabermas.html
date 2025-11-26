@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Guía básica de SSH</title>
+  <meta name="description" content="Explicación completa de qué es SSH, cómo funciona y sus principales usos." />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="/Stylers/stylers.css" />
+    <link rel="stylesheet" href="/Stylers/stylersabermas.css" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet" />
+</head>
+
+<body>
+  <nav-bar id="navegador"></nav-bar>
+
+  <main>
+    <h2>¿Qué es SSH?</h2>
+    <p>
+      <strong>SSH (Secure Shell)</strong> es un protocolo de red criptográfico que permite conectarse a otro equipo de forma segura,
+      incluso a través de una red insegura como Internet.
+      Su función principal es ofrecer un canal seguro para la administración remota de sistemas, la transferencia de archivos y
+      la ejecución de comandos a distancia. Gracias a este protocolo, la información transmitida no es legible por terceras personas.
+    </p>
+
+    <h3>Características principales</h3>
+    <ul>
+      <li>Utiliza <strong>cifrado</strong> para proteger los datos transmitidos.</li>
+      <li>Evita el robo de contraseñas y ataques de intermediarios <a href = https://es.wikipedia.org/wiki/Ataque_de_intermediario>(man-in-the-middle)</a>.</li>
+    </ul>
+
+    <h3>Cómo funciona</h3>
+    <p>
+      SSH se basa en un modelo cliente-servidor:
+    </p>
+    <ul>
+      <li>El <strong>cliente SSH</strong> inicia la conexión desde tu equipo local. 
+        Es la aplicación que utilizas para conectarte a un servidor remoto. </li>
+      <li>El <strong>servidor SSH</strong> escucha conexiones entrantes y valida la identidad del usuario.
+    Se ejecuta en el servidor remoto al que deseas acceder.</li>
+      <li>Una vez autenticado, se establece un canal cifrado y se pueden ejecutar comandos o transferir archivos.</li>
+    </ul>
+
+    <h3> <strong> El protocolo SSH siempre es seguro!</strong></h3>
+
+
+
+    <h3> Tipos de cifrado</h3>
+
+    <ul>
+    <li> <Strong>Cifrado simétrico:</Strong> En esta forma de cifrado se utiliza una clave secreta tanto para cifrado como el descifrado del mensaje.
+        Cualquiera que tenga el mensaje, puede descifrar el mensaje. A menudo se llama  <a href = https://es.wikipedia.org/wiki/Clave_precompartida>clave compartida</a>o shared key.
+    </li>
+    <li> <strong>Cifrado asimétrico:</strong>  En este tipo de cifrado se utilizan dos claves. una pública y una privada. Se hace uso de una clave para el cifrado, y de la otra para el descifrado.
+Cuando un cliente se conecta a un servidor, utiliza la clave pública del servidor para cifrar un mensaje que sólo puede descifrarse con la clave privada correspondiente.
+
+
+    </li>
+    </ul>
+
+
+  </main>
+
+  <footer id="footer"></footer>
+<script src="/Scripts/navBar.js"></script>
+<script src="/Scripts/footer.js"></script>
+</body>
+</html>

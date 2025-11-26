@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Guía básica de SSH</title>
+  <meta name="description" content="Explicación completa de qué es SSH, cómo funciona y sus principales usos." />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="/Stylers/stylers.css" />
+  <link rel="stylesheet" href="/Stylers/ingresar.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet" />
+</head>
+
+<body>
+  <nav-bar id="navegador"></nav-bar>
+
+  <main>
+    <div class="formulario">
+      <form action="/loginusuario" method="post">
+        <h2>Iniciar sesión</h2>
+
+        <label for="usuario">Usuario:</label>
+        <input type="text" id="usuario" name="usuario" required>
+
+        <label for="password">Contraseña:</label>
+        <input type="password" id="password" name="password" required>
+
+        <button type="submit" class="conect">Ingresar</button>
+
+        <p class="registro-texto">
+          ¿No estás registrado? 
+          <a href="/registrarse" class="registrar">Clickea aquí!</a>
+        </p>
+      </form>
+    </div>
+  </main>
+
+  <footer id="footer"></footer>
+
+<script src="/Scripts/navBar.js"></script>
+<script src="/Scripts/footer.js"></script>
+</body>
+</html>
