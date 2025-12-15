@@ -1,0 +1,155 @@
+
+.contenedor-mitad {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 20px;
+}
+
+.mitad-izquierda {
+    width: 50%;
+    padding: 10px 20px;
+    box-sizing: border-box;
+    text-align: left;
+}
+
+.mitad-derecha {
+    width: 50%;
+    padding: 10px 20px;
+    box-sizing: border-box;
+    text-align: left;
+}
+
+
+/* Para las terminales bash */
+.terminal-box {
+    background-color: #1e1e1e;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    min-width: 300px;
+    text-align: left;
+    margin: 10px auto; width: 50%;
+}
+
+.terminal-header {
+    background-color: #3c3c3c;
+    padding: 10px 15px;
+    border-bottom: 1px solid #555;
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+    color: #cccccc;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: flex-start;
+}
+
+.terminal-content {
+    padding: 20px;
+    font-family: 'Courier New', monospace;
+    font-size: 15px;
+    line-height: 1.5;
+    color: #cccccc;
+    text-align: left;
+}
+
+.linea-comando {
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.prompt {
+    color: #ce69f7;
+    margin-right: 5px;
+}
+
+.comando {
+    color: #ffffff;
+}
+
+.texto-bash {
+    color: #888888;
+    font-style: italic;
+}
+
+/* Para textos */
+.centrado {
+    text-align: center;
+    margin: 20px !important;
+}
+
+/* Para Linux */
+
+.contenedor-linux {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0 15px 0;
+}
+
+.recuadro-linux {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 25px 40px;
+    border-radius: 20px;
+    border: 3px solid #fff;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    max-width: 400px;
+    width: 85%;
+    color: white;
+    position: relative;
+    overflow: hidden;
+}
+
+.recuadro-linux::before {
+    content: "";
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4);
+    z-index: -1;
+    border-radius: 25px;
+    animation: animarBorde 4s linear infinite;
+}
+
+@keyframes animarBorde {
+    0%, 100% { filter: hue-rotate(0deg); }
+    50% { filter: hue-rotate(180deg); }
+}
+
+/* ESTILOS PARA LA NUEVA IMAGEN */
+.imagen-linux {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 10px;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+    border-radius: 50%;  /* Circular */
+    object-fit: contain; /* Muestra la imagen completa */
+    background-color: white; /* Fondo blanco para que se vea mejor */
+    padding: 5px; /* Espacio interno */
+}
+
+/* O si prefieres mantener el emoji pero cambiar a otro */
+.icono-linux {
+    font-size: 60px; /* Tamaño del emoji */
+    margin-bottom: 10px;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+}
+
+.recuadro-linux p {
+    margin: 10px 0 !important;
+    font-size: 18px !important;
+    font-weight: 600;
+    color: white !important;
+    line-height: 1.3;
+}
+
+.recuadro-linux small {
+    font-size: 14px;
+    opacity: 0.9;
+    color: #f0f0f0 !important;
+    line-height: 1.2;
+}
