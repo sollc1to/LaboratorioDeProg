@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Estadísticas del Servidor</title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="/Stylers/stylers.css" />
+    <link rel="stylesheet" href="/Stylers/stylersestadistica.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    
+    <nav-bar id="navegador"></nav-bar>        
+    
+    <ul class="accordion">
+        <li>
+            <label for="Usage_CPU%">CPU</label>
+            <div class="content_metricas">
+                <p></p>
+                <canvas id="CpuChart" width="400" height="300"></canvas>
+            </div>
+        </li>
+
+        <li>
+            <label for="Usage_RAM">RAM</label>
+            <div class="content_metricas">
+                <p></p>
+                <canvas id="RamChart" width="400" height="300"></canvas>
+            </div>
+        </li>
+
+        <li>
+            <label for="Usage_Disk">Disco</label>
+            <div class="content_metricas">
+                <p></p>
+                <canvas id="DiskChart" width="400" height="300"></canvas>
+            </div>
+        </li>
+
+        <li>
+            <label for="Cpu_temp">Temperatura CPU</label>
+            <div class="content_metricas">
+                <canvas id="TempChart" width="400" height="300"></canvas>
+                <p></p>
+            </div>
+        </li>
+    </ul>
+    
+    <footer id="footer"></footer>
+
+    <!-- ORDEN CORRECTO DE SCRIPTS -->
+    <script src="/Scripts/navBar.js"></script>
+    <script src="/Scripts/footer.js"></script>
+    
+    <!-- Script del acordeón PRIMERO -->
+    <script src="/Scripts/script.js"></script>
+  <script type="module" src="Scripts/metricas.js"></script>
+
+</body>
+</html>
