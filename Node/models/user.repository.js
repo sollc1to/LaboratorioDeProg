@@ -1,6 +1,6 @@
 const DBlocal = require("db-local");
 const { Schema } = new DBlocal({ path: './mongoDB' });
-const bcrypt = require('bcrypt'); 
+const bcrypt = require('bcrypt');
 
 const User = Schema('User', { //Se podria agregar una keySSH para cada usuario para mas seguridad al momento de acceder a un servidor por medio de ssh 
     nombre: { type: String, required: true },
@@ -12,7 +12,9 @@ const User = Schema('User', { //Se podria agregar una keySSH para cada usuario p
 una vez el usuario tenga la key debe copiarla a su carpeta /authorized_key de esta manera el servidor puede conectarse al servidor 
 sin necesitar una password 
 */
-
+/** ALGO QUE ME PERCATE TARDE ES QUE POR CADA THROWN ERROR SE PUEDE UTILIZAR PARA MODIFICAR UN HTML FIJO O CARTEL NOMBRANDO EL ERROR DE MANERA
+ * AMIGABLE AL USUARIO COMO SE HACE EN LOS CASOS DE ERROR DE CONEXION CON SSHD 
+ */
 class UserRepository {
 
     static async create({ userName, Usermail, password }) {
@@ -41,10 +43,10 @@ class UserRepository {
                 mail: Usermail,
                 password: hashedPassword
             }).save();
-            
+
             console.log("Usuario creado:", user);
-            
-            return ({nombre:userName,mail:Usermail});
+
+            return ({ nombre: userName, mail: Usermail });
 
         } catch (error) {
             console.error("Error en UserRepository.create:", error);
@@ -56,25 +58,25 @@ class UserRepository {
         try {
             // Buscar usuario por nombre
             const users = await User.find({ nombre: userName }); //deberia usar userfindOne pero como ya hice todos los metodos en base a un array no lo pienso cambiar
-            
+
             if (users && users.length > 0) {
                 const user = users[0];
-                
+
                 const isPasswordValid = await bcrypt.compare(password, user.password);
-                
+
                 if (isPasswordValid) {
-                    return { 
-                        success: true, 
+                    return {
+                        success: true,
                         user: users, // Devuelve el array de usuarios porque no use findOne
                         message: "Login exitoso"
                     };
                 }
             }
-            
-            return { 
-                message: "Credenciales incorrectas" 
+
+            return {
+                message: "Credenciales incorrectas"
             };
-            
+
         } catch (error) {
             console.error("Error en UserRepository.login:", error);
             throw error;

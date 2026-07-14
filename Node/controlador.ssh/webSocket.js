@@ -1,209 +1,161 @@
 const WebSocket = require("ws");
-const SshClient = require("./control.ssh")
+const SshClient = require("./control.ssh");
 const sshUser = require("../models/user.ssh.js");
 
 const activeSessions = new Map();
 
 module.exports = function createMetricsWSS(server) {
-    
+
     const wss = new WebSocket.Server({ server, path: "/ws/metricas" });
 
     console.log("WebSocket Server de métricas iniciado");
 
-    wss.on("connection", async (ws, req) => {
-        console.log("Nueva conexión WebSocket recibida");
-
+    wss.on("connection", (ws, req) => {
         const params = new URLSearchParams(req.url.split('?')[1]);
         const username = params.get("username");
-        console.log(" Usuario WebSocket:", username);
-
         if (!username) {
-            console.log("No se proporcionó username, cerrando conexión");
-            ws.close();
+            ws.close(1008, "Username required");
             return;
         }
 
+        //no me acuerdo porque hice lo de la session id encima es una forma encriptada manual 
+
         const sessionId = `${username}_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+        activeSessions.set(sessionId, { ws, username, interval: null, client: null, connected: false }); //lo de distintas sessiones era por
+        // que si hubieran mas personas que 1 sola intendando entrar o ingresar a un servidor se superpone 
 
-        activeSessions.set(sessionId, {
-            ws: ws,
-            username: username,
-            interval: null,
-            client: null,
-            connected: false
-        });
+        ws.on("message", async (msg) => {
+            const messageStr = msg.toString();
 
-        console.log(`Sesión creada: ${sessionId} para ${username}`);
-
-        ws.on("message", async (message) => {
-            if (message.toString() === "start_metrics") {
-                console.log(`Iniciando métricas para sesión ${sessionId}`);
+            if (messageStr === "start_metrics") {
                 await startMetrics(sessionId);
+            }
+            // NUEVO: manejo de terminal 
+            else if (messageStr.startsWith("cmd:")) {
+                const command = messageStr.slice(4); // elimina "cmd:"
+                const session = activeSessions.get(sessionId);
+                if (session && session.connected && session.client) {
+                    try {
+                        const output = await session.client.exec(command);
+                        ws.send(JSON.stringify({ type: "cmd_output", output: output }));
+                    } catch (err) {
+                        ws.send(JSON.stringify({ type: "cmd_error", error: err.message }));
+                    }
+                } else {
+                    ws.send(JSON.stringify({ type: "cmd_error", error: "No hay conexión SSH activa o el cliente no está listo." }));
+                }
             }
         });
 
         ws.on("close", () => {
-            console.log(`WebSocket cerrado para sesión ${sessionId}`);
-            cleanupSession(sessionId);
-        });
-
-        ws.on("error", (error) => {
-            console.error(`Error WebSocket para sesión ${sessionId}:`, error);
-            cleanupSession(sessionId);
+            const session = activeSessions.get(sessionId);
+            if (session) {
+                if (session.interval) clearInterval(session.interval);
+                if (session.client) session.client.end();
+                activeSessions.delete(sessionId);
+                console.log(`[WS] Sesión ${sessionId} limpiada`);
+            }
         });
     });
 
     async function startMetrics(sessionId) {
         const session = activeSessions.get(sessionId);
-        if (!session) {
-            console.log(`❌ Sesión ${sessionId} no encontrada`);
-            return;
+        if (!session) return;
+
+        // Limpiar intentos previos
+        if (session.interval) clearInterval(session.interval);
+        if (session.client) {
+            try { session.client.end(); } catch (e) { }
+            session.client = null;
         }
+        session.connected = false;
 
         try {
-            console.log(`📡 Cargando configuración SSH para ${session.username}`);
-            
-            const ssh = await sshUser.findSSH(session.username);
-            if (!ssh) {
-                console.log(`❌ No se encontró configuración SSH para ${session.username}`);
-                session.ws.send(JSON.stringify({
-                    error: "ssh_config_not_found",
-                    message: "No se encontró configuración SSH"
-                }));
-                session.ws.close();
+            const sshData = await sshUser.findSSH(session.username);
+
+            if (!sshData) {
+                session.ws.send(JSON.stringify({ redirect: "/conectar" }));
                 return;
             }
 
-            session.client = new SshClient();
-            console.log('INTENTO DE CONEXION SSH');
-            
-            await session.client.connect(ssh);
+            console.log(`[SSH] Conectando a ${sshData.host} como ${sshData.username}`);
+            const client = new SshClient();
+            session.client = client;
+            console.log("[DEBUG] privateKey primeras 50 chars:", sshData.privateKey.substring(0, 50));
+            console.log("[DEBUG] username:", sshData.username);
+            console.log("[DEBUG] host:", sshData.host);
+            await client.connect({
+                host: sshData.host,
+                username: sshData.username,
+                privateKey: sshData.privateKey,
+                timeout: 18000 // aumento a 8 segundos
+            });
+
             session.connected = true;
-            
-            console.log('CONEXION SSH ESTABLECIDA');
+            session.ws.send(JSON.stringify({ status: "ssh_connected" }));
 
-            session.ws.send(JSON.stringify({
-                type: "ssh_connected",
-                message: "Conexión SSH establecida correctamente"
-            }));
+            // Envío periódico de métricas
+            session.interval = setInterval(async () => {
+                if (!session.connected || session.ws.readyState !== WebSocket.OPEN) {
+                    clearInterval(session.interval);
+                    return;
+                }
+                try {
+                    const [cpuRaw, ramRaw, diskRaw, tempRaw] = await Promise.all([
+                        client.exec(getCpuCommand()),
+                        client.exec(getRamCommand()),
+                        client.exec(getDiskCommand()),
+                        client.exec(getTempCommand())
+                    ]);
+                    session.ws.send(JSON.stringify({
+                        cpu: parseCpuOutput(cpuRaw),
+                        ram: parseRamOutput(ramRaw),
+                        disk: parseDiskOutput(diskRaw),
+                        temp: parseFloat(tempRaw)
+                    }));
+                } catch (err) {
+                    console.error("[SSH] Error ejecutando comandos:", err.message);
+                    // Si falla un comando, no cerramos la sesión, solo log
+                }
+            }, 2000);
 
-            startMetricsCollection(sessionId);
+        } catch (sshError) {
+            console.error(`[SSH] Error conectando a ${session.username}:`, sshError.message);
 
-        } catch (error) {
-            console.error(`❌ Error iniciando métricas para sesión ${sessionId}:`, error);
+            let userFriendlyMessage = "";
+            const errorMsg = sshError.message;
 
-            if (session.ws && session.ws.readyState === WebSocket.OPEN) {
+
+            if (errorMsg.includes("ENOTFOUND")) {
+                // Extrae el nombre del host que no se encontró
+                const hostMatch = errorMsg.match(/ENOTFOUND\s+(\S+)/);
+                const host = hostMatch ? hostMatch[1] : "desconocido";
+                userFriendlyMessage = `No se pudo encontrar el servidor "${host}". Verifica que el nombre o la IP sean correctos.`;
+            }
+            else if (errorMsg.includes("ECONNREFUSED")) {
+                userFriendlyMessage = `El servidor remoto rechazó la conexión en el puerto SSH (posiblemente 22). ¿El servicio SSH está corriendo?`;
+            }
+            else if (errorMsg.includes("timed out") || errorMsg.includes("Timeout")) {
+                userFriendlyMessage = `Tiempo de espera agotado. El servidor no responde. Revisa tu conexión de red.`;
+            }
+            else if (errorMsg.includes("authenticated")) {
+                userFriendlyMessage = `Error de autenticación. Asegúrate de haber copiado la clave pública en el servidor remoto.`;
+            }
+            else {
+                userFriendlyMessage = `Error de conexión: ${errorMsg}`;
+            }
+
+            if (session.ws.readyState === WebSocket.OPEN) {
                 session.ws.send(JSON.stringify({
                     error: "ssh_connection_failed",
-                    message: error.message,
-                    redirect: "/"
+                    message: userFriendlyMessage
                 }));
             }
-
-            cleanupSession(sessionId);
-        }
-    }
-
-    function startMetricsCollection(sessionId) {
-        const session = activeSessions.get(sessionId);
-        if (!session || !session.connected) {
-            console.log(`❌ Sesión ${sessionId} no conectada para métricas`);
-            return;
-        }
-
-        console.log(`📊 Iniciando colección de métricas para ${sessionId}`);
-
-        session.interval = setInterval(async () => {
-            if (!session.connected || !session.client) {
-                console.log(`Sesión ${sessionId} desconectada, deteniendo métricas`);
-                clearInterval(session.interval);
-                return;
-            }
-
-            try {
-                const metrics = await getMetricsData(session.client);
-                
-                if (session.ws && session.ws.readyState === WebSocket.OPEN) {
-                    session.ws.send(JSON.stringify({
-                        type: "metrics",
-                        timestamp: Date.now(),
-                        ...metrics
-                    }));
-                }
-
-            } catch (error) {
-                console.error(`❌ Error en métricas ${sessionId}:`, error.message);
-            }
-        }, 2000);
-
-        console.log(`✅ Colección de métricas iniciada para ${sessionId}`);
-    }
-
-    async function getMetricsData(client) {
-        const metrics = {};
-        
-        try {
-            console.log('Ejecutando comando CPU...');
-            const cpuOutput = await client.exec(getCpuCommand());
-            metrics.cpu = parseCpuOutput(cpuOutput);
-        } catch (error) {
-            console.error('Error CPU:', error.message);
-            metrics.cpu = { cores: ['CPU 0'], usage: [0] };
-        }
-
-        try {
-            console.log('💾 Ejecutando comando RAM...');
-            const ramOutput = await client.exec(getRamCommand());
-            metrics.ram = parseRamOutput(ramOutput);
-        } catch (error) {
-            console.error('❌ Error RAM:', error.message);
-            metrics.ram = { used: 0, free: 100, cache: 0 };
-        }
-
-        try {
-            console.log('Ejecutando comando Disk...');
-            const diskOutput = await client.exec(getDiskCommand());
-            metrics.disk = parseDiskOutput(diskOutput);
-        } catch (error) {
-            console.error('❌ Error Disk:', error.message);
-            metrics.disk = { system: 0, free: 100 };
-        }
-
-        try {
-            console.log('Ejecutando comando Temp...');
-            const tempOutput = await client.exec(getTempCommand());
-            metrics.temp = parseFloat(tempOutput) || 0;
-        } catch (error) {
-            console.error('❌ Error Temp:', error.message);
-            metrics.temp = 0;
-        }
-
-        return metrics;
-    }
-
-    function cleanupSession(sessionId) {
-        const session = activeSessions.get(sessionId);
-        if (session) {
-            console.log(`Limpiando sesión: ${sessionId}`);
-            
-            if (session.interval) {
-                clearInterval(session.interval);
-            }
-            
-            if (session.client) {
-                try {
-                    session.client.end();
-                } catch (error) {
-                    console.error(`Error desconectando cliente: ${error.message}`);
-                }
-            }
-            
-            activeSessions.delete(sessionId);
         }
     }
 };
 
-// COMANDOS ACTUALIZADOS
+// ========== COMANDOS SSH ==========
 function getCpuCommand() {
     return `
         grep '^cpu[0-9]' /proc/stat | awk '{
@@ -229,7 +181,6 @@ function getRamCommand() {
 
 function getDiskCommand() {
     return `
-        # Comando disk en porcentajes - solo system y free
         df / | awk 'NR==2 {
             usage=$5;
             gsub("%","",usage);
@@ -245,7 +196,7 @@ function getTempCommand() {
     `;
 }
 
-// FUNCIONES DE PARSEO ACTUALIZADAS
+// ========== PARSEO ==========
 function parseCpuOutput(output) {
     try {
         const data = JSON.parse(output);

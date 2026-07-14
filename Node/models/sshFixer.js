@@ -1,10 +1,11 @@
 /**
  * MÓDULO SIMPLE PARA FORMATEAR CLAVES SSH
- * Para claves generadas con generateKeyPairSync en formato PKCS1 PEM
+ * Para claves generadas con generateKeyPairSync en formato PKCS1 PEM --BEGIN / END--- LAS CLAVES SE LEEN EN FORMATO OPENSSH 
+ * ESTO NO SIRVE DE NADA ERA MAS FACIL UTILIZAR Y GENERAR LAS EKYS DESDE NODE CON SSHDKEYGEN / GENERADOR DE SSH POR DEFECTO EN ARCH /CAMBIA POR DISTRIBUCION
  */
 
 class SSHKeyFixer {
-    
+
     /**
      * Formatea una clave privada para ssh2 - VERSIÓN SIMPLE
      * @param {string} privateKey - Clave privada de la base de datos
@@ -12,28 +13,28 @@ class SSHKeyFixer {
      */
     static fixPrivateKey(privateKey) {
         // Si la clave ya está bien formateada, devolverla tal cual
-        if (privateKey.includes('-----BEGIN RSA PRIVATE KEY-----') && 
+        if (privateKey.includes('-----BEGIN RSA PRIVATE KEY-----') &&
             privateKey.includes('-----END RSA PRIVATE KEY-----') &&
             privateKey.includes('\n')) {
             return privateKey;
         }
-        
+
         // Caso 1: Reemplazar \n literales por saltos de línea reales
         let fixedKey = privateKey.replace(/\\n/g, '\n');
-        
+
         // Caso 2: Si no tiene headers, agregarlos
         if (!fixedKey.includes('BEGIN RSA PRIVATE KEY')) {
             fixedKey = `-----BEGIN RSA PRIVATE KEY-----\n${fixedKey}\n-----END RSA PRIVATE KEY-----\n`;
         }
-        
+
         // Asegurar que termina con salto de línea
         if (!fixedKey.endsWith('\n')) {
             fixedKey += '\n';
         }
-        
+
         return fixedKey;
     }
-    
+
     /**
      * Verificación rápida de la clave
      */
@@ -42,10 +43,10 @@ class SSHKeyFixer {
         const hasEnd = privateKey.includes('END RSA PRIVATE KEY');
         const hasNewlines = privateKey.includes('\n');
         const hasEscapedNewlines = privateKey.includes('\\n');
-        
+
         return {
             hasBegin,
-            hasEnd, 
+            hasEnd,
             hasNewlines,
             hasEscapedNewlines,
             isValid: hasBegin && hasEnd && hasNewlines && !hasEscapedNewlines

@@ -17,7 +17,7 @@ router.get("/registrarse", requireNoAuth, (req, res) => {
 
 // REGISTRO - NO AUTH
 router.post("/registrarse", requireNoAuth, async (req, res) => {
-   
+
     try {
         const { usuario, email, password } = req.body;
         if (!usuario || !email || !password) {
@@ -58,6 +58,16 @@ router.post("/registrarse", requireNoAuth, async (req, res) => {
     }
 });
 
+router.get('/auth-status', requireAuth, (req, res) => {
+    // req.user ya fue establecido por authMiddleware y requireAuth asegura que existe
+    res.json({
+        loginAuth: true,
+        user: {
+            nombre: req.user.nombre
+        }
+    });
+});
+
 
 // LOGIN - NO AUTH
 router.post("/loginusuario", requireNoAuth, async (req, res) => {
@@ -81,7 +91,7 @@ router.post("/loginusuario", requireNoAuth, async (req, res) => {
             };
 
             const token = jwt.sign(userData, process.env.SECRET_JWT_KEY, { expiresIn: '1h' });
-            
+
             res
                 .cookie('access_token', token, {
                     httpOnly: true,
