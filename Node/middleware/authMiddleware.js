@@ -15,7 +15,6 @@ const authMiddleware = async (req, res, next) => {
             const data = await jwt.verify(token, process.env.SECRET_JWT_KEY);
             req.user = data;
         }
-
         next();
     } catch (error) {
         req.user = null;
@@ -23,7 +22,11 @@ const authMiddleware = async (req, res, next) => {
     }
 };
 
-// Middleware opcional para rutas que REQUIEREN autenticación
+
+
+// Middleware opcional para rutas que REQUIEREN autenticación 
+// Si ya inicio sesion el req siempre va a tener una especie de usuario 
+// es una especie de parada la cual se ejecuta antes de la ruta, si no hay usuario autenticado redirige a ingresar, sino prosigue con el transito normal de la ruta
 const requireAuth = (req, res, next) => {
     if (!req.user) {
         return res.redirect("/ingresar"); //como mando un json esto termina inmediatamente la respuesta 
@@ -52,11 +55,11 @@ const meterToken = (req, res, userData) => {
             maxAge: 1000 * 60 * 60 // 1 hora
         })
         .redirect('/');
-};*/ 
+};*/
 
 module.exports = {
     authMiddleware,
     requireAuth,
     requireNoAuth,
-    
+
 };

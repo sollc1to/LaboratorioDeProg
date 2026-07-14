@@ -2,7 +2,7 @@ require("dotenv").config();
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const path = require('path');
-const { authMiddleware } = require('./middleware/authMiddleware'); 
+const { authMiddleware } = require('./middleware/authMiddleware');
 const WebSocket = require("ws");
 
 const app = express();
@@ -18,11 +18,11 @@ app.use(authMiddleware);
 
 const indexRoutes = require('./routes/indexRoute.js');
 const authRoutes = require('./routes/authRoute.js');
-const privateRoutes = require ('./routes/privateRoute.js');
+const privateRoutes = require('./routes/privateRoute.js');
 
 app.use("/", indexRoutes);
 app.use("/", authRoutes);
-app.use("/",privateRoutes);
+app.use("/", privateRoutes);
 
 
 const server = app.listen(PORT, () => {

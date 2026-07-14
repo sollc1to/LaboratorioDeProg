@@ -1,8 +1,9 @@
 const DBlocal = require('db-local');
 const { Schema } = new DBlocal({ path: "./mongoDB" });
-const { generateKeyPairSync } = require('crypto');
-const SSHKeyFixer = require('./sshFixer.js'); 
-
+const { generateKeyPairSync } = require('crypto'); // totalmente al pedo pude usar ssh-keygen 
+const SSHKeyFixer = require('./sshFixer.js');
+// peligroso que sea la misma clave para todos los servidores 
+// deberia expandirse para distintos servidores no solo uno 
 const UserSSHI = Schema('UserSSHI', {
     username: { type: String, required: true },
     public_key: { type: String, required: true },
@@ -25,16 +26,16 @@ class UserSshRepository {
 
             if (!user) {
 
-                
-                
+                // La clave publica esta mal el formato debe usar un formato OpenSSH  el formato en elq ue esta no sirve
+
                 const { publicKey, privateKey } = generateKeyPairSync('rsa', {
                     modulusLength: 2048,
                     publicKeyEncoding: {
-                        type: 'pkcs1',  
+                        type: 'pkcs1',
                         format: 'pem'
                     },
                     privateKeyEncoding: {
-                        type: 'pkcs1',  
+                        type: 'pkcs1',
                         format: 'pem'
                     }
                 });
@@ -65,7 +66,7 @@ class UserSshRepository {
             const user = await UserSSHI.findOne({ username: username });
 
             if (user) {
-                 const fixedPrivateKey = SSHKeyFixer.fixPrivateKey(user.private_key);
+                const fixedPrivateKey = SSHKeyFixer.fixPrivateKey(user.private_key);
                 return ({
                     host: user.clientServerInfo.host,
                     port: 22,

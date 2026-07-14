@@ -1,59 +1,54 @@
-export function createDiskChart(ctx) {
-    return new Chart(ctx, {
-        type: "pie",
-        data: {
-            labels: ["Sistema", "Espacio Libre"],
-            datasets: [{
-                label: "Uso de Disco",
-                borderWidth: 2,
-                borderColor: "#fff",
-                data: [], // se llena al actualizar
-                backgroundColor: [
-                    "rgba(255, 159, 64, 0.7)",   // Naranja pastel para Sistema
-                    "rgba(75, 192, 192, 0.7)"    // Verde agua pastel para Libre
-                ],
-                hoverBackgroundColor: [
-                    "rgba(255, 159, 64, 0.9)",   // Naranja más intenso al hover
-                    "rgba(75, 192, 192, 0.9)"    // Verde más intenso al hover
-                ]
-            }]
+export function createDiskChart(containerId) {
+    const container = document.getElementById(containerId);
+
+    const opts = {
+        title: "Uso del Disco Duro",
+        width: 400,
+        height: 300,
+        scales: {
+            x: { time: true },
+            y: { range: [0, 100] }
         },
-        options: {
-            responsive: true,
-            plugins: {
-                tooltip: {
-                    callbacks: {
-                        label: function(context) {
-                            const label = context.label || '';
-                            const value = context.parsed || 0;
-                            return `${label}: ${value}%`;
-                        }
-                    }
-                },
-                title: {
-                    display: true,
-                    text: 'Uso del Disco Duro',
-                    font: { size: 16 }
-                },
-                legend: {
-                    position: 'bottom',
-                    labels: {
-                        padding: 15,
-                        usePointStyle: true
-                    }
-                }
+        series: [
+            {}, // X Axis (Timestamps)
+            {
+                label: "Sistema (Uso)",
+                stroke: "rgb(255, 159, 64)", // Soft Orange
+                width: 2,
+                fill: "rgba(255, 159, 64, 0.05)"
+            },
+            {
+                label: "Espacio Libre",
+                stroke: "rgb(75, 192, 192)", // Soft Teal
+                width: 2,
+                fill: "rgba(75, 192, 192, 0.05)"
             }
-        }
-    });
+        ],
+        axes: [
+            {},
+            { values: (u, vals) => vals.map(v => v + " %") }
+        ]
+    };
+
+    // Initialize with 3 empty arrays: [Timestamps, System, Free]
+    const data = [[], [], []];
+
+    return new uPlot(opts, data, container);
 }
 
 export function updateDiskChart(chart, diskData) {
-    // diskData: { system: 20, free: 80 }
-    
-    chart.data.datasets[0].data = [
-        diskData.system,
-        diskData.free
-    ];
+    // diskData format: { system: 20, free: 80 }
+    const data = [...chart.data];
+    const nowTimestamp = Math.floor(Date.now() / 1000);
 
-    chart.update();
+    data[0].push(nowTimestamp);
+    data[1].push(diskData.system);
+    data[2].push(diskData.free);
+
+    // Maintain a rolling history profile of 20 ticks
+    if (data[0].length > 20) {
+        data.forEach(arr => arr.shift());
+    }
+
+    chart.setData(data);
 }

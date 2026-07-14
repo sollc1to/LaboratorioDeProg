@@ -1,71 +1,50 @@
-export function createTempChart(ctx) {
-    return new Chart(ctx, {
-        type: "line",
-        data: {
-            labels: ["-5min", "-4min", "-3min", "-2min", "-1min", "Ahora"],
-            datasets: [{
-                label: "Temperatura CPU (°C)",
-                backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                borderColor: 'rgb(255, 99, 132)',
-                borderWidth: 3,
-                pointBackgroundColor: 'rgb(255, 99, 132)',
-                pointBorderColor: '#fff',
-                pointBorderWidth: 2,
-                pointRadius: 5,
-                fill: true,
-                data: []  // valores se actualizarán luego
-            }]
-        },
+export function createTempChart(containerId) {
+    const container = document.getElementById(containerId);
 
-        options: {
-            responsive: true,
-            scales: {
-                y: {
-                    beginAtZero: false,
-                    min: 30,
-                    max: 90,
-                    title: {
-                        display: true,
-                        text: 'Temperatura (°C)'
-                    },
-                    grid: {
-                        color: 'rgba(0, 0, 0, 0.1)'
-                    }
-                },
-                x: {
-                    title: {
-                        display: true,
-                        text: 'Tiempo'
-                    },
-                    grid: {
-                        color: 'rgba(0, 0, 0, 0.1)'
-                    }
-                }
-            },
-            plugins: {
-                title: {
-                    display: true,
-                    text: 'Temperatura del CPU',
-                    font: { size: 16 }
-                }
+    const opts = {
+        title: "Temperatura del CPU",
+        width: 400,
+        height: 300,
+        scales: {
+            x: { time: true },
+            y: { range: [30, 90] }
+        },
+        series: [
+            {}, // The X axis (timestamps)
+            {
+                label: "Temperatura CPU (°C)",
+                stroke: "rgb(255, 99, 132)",
+                width: 3,
+                fill: "rgba(255, 99, 132, 0.1)",
             }
-        }
-    });
+        ],
+        axes: [
+            {},
+            { values: (u, vals) => vals.map(v => v + " °C") }
+        ]
+    };
+
+    // Initial empty data arrays: [ Timestamps, Values ]
+    const data = [[], []];
+
+    return new uPlot(opts, data, container);
 }
 
 export function updateTempChart(chart, newTemp) {
-    // newTemp un numero
+    // Clone current data arrays
+    const data = [...chart.data];
 
-    // Mantener siempre 6 puntos 
-    const data = chart.data.datasets[0].data;
+    const nowTimestamp = Math.floor(Date.now() / 1000); // Unix timestamp in seconds
 
-    // Agregar nuevo valor
-    data.push(newTemp);
+    data[0].push(nowTimestamp);
+    data[1].push(newTemp);
 
-    // Si supera los 6 valores, eliminar el más viejo
-    if (data.length > 6) {
-        data.shift();
+    // Keep only the last 20 records so the timeline moves smoothly
+    if (data[0].length > 20) {
+        data[0].shift();
+        data[1].shift();
     }
 
-    chart.update();
+    // Tells uPlot to redraw with the new structural data array
+    chart.setData(data);
 }
